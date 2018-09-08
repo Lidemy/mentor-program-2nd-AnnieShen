@@ -7,8 +7,8 @@ function printFactor(a){
 			n += i + "\n";
 		}
 	}
-	return n;
-    console.log(a);
+	
+    console.log(n);
 }
 
 

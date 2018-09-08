@@ -1,9 +1,7 @@
 function reverse(str){
-
-  var splitString = str.split(""); 
-  var reverseString = splitString.reverse(); 
-  var joinString = reverseString.join(""); 
-  return joinString; 
-  console.log(str);
- 
+  var newstr = ""; 
+  for (var i = str.length - 1; i >= 0; i--) {
+	newstr += str[i]
+  };
+  console.log(newstr);
 }

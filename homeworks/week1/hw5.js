@@ -1,8 +1,16 @@
 function join(str, concatStr) { 
 
-  var result = str.join(concatStr);
-  return result;
-  console.log(result);
+  var newstr = "";
+  for(var i = 0; i < str.length; i++){
+	  if(i < str.length-1){
+		  newstr += str[i] + concatStr; 
+	  }
+	  else{
+		  newstr +=  str[i];
+	  }
+  }
+  return newstr;
+  console.log(newstr);
   
 }
 
