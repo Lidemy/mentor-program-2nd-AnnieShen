@@ -21,8 +21,8 @@ function add(a, b) {
     var baLength = bArray.length - aArray.length
     for(var m = 1; m <= baLength; m++){
       aArray.unshift('0')
-      //console.log(aArray)
-      //console.log(bArray)
+     // console.log(aArray)
+     // console.log(bArray)
     }
   }
   
@@ -32,20 +32,24 @@ function add(a, b) {
   }
   
   
-  console.log(sumArray)
+  //console.log(sumArray)
+  
+  if(sumArray.length >= 2){
   
   for(var k = 0; k < sumArray.length; k++){
     if(sumArray[k] >= 10){
       sumArray[k] = sumArray[k] - 10;
       //sumArray.push(0)
       sumArray[k + 1] += 1;
-      //console.log("要進位"+sumArray)
+      console.log("要進位"+sumArray)
       
       if(sumArray[sumArray.length-1] >=10 ){
         sumArray.push(0)
       }
       
     }
+  
+  }
   
   }
   
