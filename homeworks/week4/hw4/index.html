@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>week4-hw4</title> 
+
+</head>
+<body>
+
+<button id="btn">click me</button>
+<h1 class="title">Hello</h1>
+
+</body>
+<script>
+  function q(className) {
+    var class1 = document.querySelector(className);
+    return {
+      hide: function () {
+        class1.style.display = "none";
+      },
+      show: function () {
+        class1.style.display = "block"
+      }
+    }
+  }
+  
+  var element = q(".title");
+
+  document.getElementById("btn").addEventListener("click", function(){	
+	if(document.querySelector('.title').style.display === 'none'){
+      element.show();
+	}else{
+	  element.hide();	
+	}
+	
+  });
+
+</script> 
+</html>

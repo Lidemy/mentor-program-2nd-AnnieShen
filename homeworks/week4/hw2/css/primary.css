@@ -1,0 +1,46 @@
+@charset "utf-8";
+/* CSS Document */
+/*html {min-width: 100%; height:100%;}*/
+    html, body {
+        position: relative;
+        height: 100%;
+    }
+body{ margin:0; padding:0; background:#BFF0F7; font-family:"微軟正黑體"}
+.clean{ clear:both;}
+*{ box-sizing:border-box;}
+h1{ font-size:35px;}
+h2{ font-size:30px;}
+p{ font-size:13px;}
+input:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px white inset; background:none !important;
+    }
+
+
+
+/*內容*/
+.header{background:url(../images/bg01.jpg) no-repeat; background-size:cover; height:278px;}
+.container{ margin-top:-100px; }
+.content{ max-width:640px; background:#fff; width:100%; margin:0 auto; border-top:8px solid #FFB3D9; padding:0 20px 30px 20px;}
+.rule{ padding:0 25px; margin-bottom:20px;}
+.rule p.red{ color:#F00;}
+.row{ padding:25px; margin-bottom:5px;}
+.row_select { background:#ffebee;}
+.row .item-name{ font-size:20px; margin-bottom:10px;}
+.row .item-name span{ color:#F00;}
+.row .item-name > p{ line-height:20px; margin:0}
+.row .submit{ background: #06F; color:#fff; border:none; padding:10px 35px; border-radius:5px; cursor:pointer;}
+.row input{ border: none; border-bottom: 1px solid #ccc; outline:none;}
+.row input[type="text"] ,.row input[type="email"]{ width:60%; line-height:30px; font-size:16px;}
+.row .reminder{ display:none; margin-top:10px; color:#db4437;}
+.notice{ background:none; border-bottom:1px solid #ea3535;}
+
+/*表尾*/
+.footer{ border-top:1px solid #ccc; padding-top:20px; margin-top:50px;}
+
+@media only screen and (max-width: 960px) {
+  .content {padding: 30px 20px;}
+}
+@media only screen and (max-width: 767px) {
+  .content .columns{ width:100%; margin-bottom:20px;}
+  .footer{  margin-top:30px;}
+}
