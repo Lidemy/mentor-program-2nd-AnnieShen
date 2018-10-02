@@ -9,6 +9,7 @@
 2. <i>文字內容 ...</i> 可以讓文字變斜體
 3. <button> 是按鈕標籤，在 html 裡要做表單的送出，除了可以用 <input type="button"> 也可以用 <button> 
 
+
 ## 請問什麼是盒模型（box modal）
 盒模型就是內容本身往外依序為 padding、border、margin，可以使用 css 來定義 box-sizing，如果是 content-box，元素本身的寬高不會包含 padding、border；
 若是 border-box，元素的 padding、border，會包含在原本設定元素的寬高內。

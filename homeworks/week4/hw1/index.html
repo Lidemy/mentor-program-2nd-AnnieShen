@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+        "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>week4-hw1</title> 
+<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1"> 
+   
+<link rel="stylesheet" href="css/primary.css" type="text/css">
+<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-2.1.4.min.js"></script>  
+<script type="text/javascript" src="js/index.js"></script>
+
+</head>
+<body>
+
+<div class="calculator">
+  <form>
+  
+    <div class="calc_box">   
+      <div class="result_box"><input id="result" type="text" readonly></div>
+      <div class="row">
+        <input type="button" value="AC" onClick="clearResult()">
+        <input type="button" value="÷" onClick="cal('/')">
+      </div>
+      <div class="row">
+        <input type="button" value="7" onclick="getNum('7')">
+        <input type="button" value="8" onclick="getNum('8')">
+        <input type="button" value="9" onclick="getNum('9')">
+        <input type="button" value="x" onClick="cal('*')">
+      </div>
+       <div class="row">
+        <input type="button" value="4" onclick="getNum('4')">
+        <input type="button" value="5" onclick="getNum('5')">
+        <input type="button" value="6" onclick="getNum('6')">
+        <input type="button" value="-" onClick="cal('-')">
+      </div>
+       <div class="row">
+        <input type="button" value="1" onclick="getNum('1')">
+        <input type="button" value="2" onclick="getNum('2')">
+        <input type="button" value="3" onclick="getNum('3')">
+        <input type="button" value="+" onClick="cal('+')">
+      </div>
+       <div class="row">
+        <input type="button" value="0" onclick="getNum('0')">
+        <input type="button" value="." onClick="getNum('.')">
+        <input class="equal" type="button" value="=" onClick="equal()" >
+           
+      </div>
+    </div> 
+                
+  </form>
+</div><!--.calculator-->
+
+
+
+</body>
+
+
+</html>
