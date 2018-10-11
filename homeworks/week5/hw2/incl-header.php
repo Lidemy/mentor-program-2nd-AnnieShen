@@ -6,10 +6,16 @@
 
             //判斷是否登入過
             if(!isset($_COOKIE[$cookie_name])){
+            ?> 
+                <a href="register.php">註冊</a> <a href="login.php">會員登入</a>
+            <?php
                 
             } else{
                 //echo "member id: " . $_COOKIE[$cookie_name];
                 echo "Hello " . $_COOKIE[$cookie_name] ." !";
+                ?>
+                <a href="logout.php">登出</a>
+                <?php
                 
                 
             }
@@ -17,19 +23,7 @@
 
         
 
-        <?php 
 
-            //判斷是否登入過
-            if(!isset($_COOKIE[$cookie_name])){  ?> 
-                <a href="register.php">註冊</a> <a href="login.php">會員登入</a>
-                <?php  } else{ ?> 
-
-                
-                <a href="logout.php">登出</a>
-                
-                
-            <?php } ?> 
-    
 
         
     
