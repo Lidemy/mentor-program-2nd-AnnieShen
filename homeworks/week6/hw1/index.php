@@ -146,13 +146,13 @@
 
                 <script>
                 $('.edit_box<?php echo $row ["id"]; ?>').hide();
-                $('.show_content').on('click', '.edit<?php echo $row ["id"]; ?>', function(event) { // 绑定事件到父节点
+                $('.show_content').on('click', '.edit<?php echo $row ["id"]; ?>', function(event) { 
                   
                     var $target = $(event.target);
                     if( $target.is(".edit<?php echo $row ["id"]; ?>") ) {
                       
                       $('.edit_box<?php echo $row ["id"]; ?>').toggle();
-                      console.log($(event.target).html()); // 注意操作对象是event.target还是this，下面会有详细说明哦
+                      console.log($(event.target).html()); 
                   }
                 });
                 </script>
@@ -226,7 +226,7 @@
 
                         <script>
                           $('.edit_box_child<?php echo $row2 ["id"]; ?>').hide();
-                          $('.show_content_child').on('click', '.edit_child<?php echo $row2 ["id"]; ?>', function(event) { // 绑定事件到父节点   
+                          $('.show_content_child').on('click', '.edit_child<?php echo $row2 ["id"]; ?>', function(event) {   
                             var $target_child = $(event.target);
                             if( $target_child.is(".edit_child<?php echo $row2 ["id"]; ?>") ) { 
                               $('.edit_box_child<?php echo $row2 ["id"]; ?>').toggle();
