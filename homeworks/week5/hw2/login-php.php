@@ -25,6 +25,11 @@
         echo "登入失敗，請確實填寫資料!";
         header("Refresh:1; login.php");
     }else{
+        $cookie_value = $user_id;
+  
+        // 設定一個 24 小時之後會過期的 Cookie
+        setcookie($cookie_name, $cookie_value , time()+3600*24);
+        
         echo '登入成功';
         header('Location: index.php');
     }
@@ -34,18 +39,4 @@
       header("Refresh:1; login.php");
   }
 
-
-  $cookie_value = $user_id;
-  
-    // 設定一個 24 小時之後會過期的 Cookie
-    setcookie($cookie_name, $cookie_value , time()+3600*24);
-  
-    //判斷是否登入過
-    /*if(!isset($_COOKIE[$cookie_name])){
-        echo "not login";
-    } else{
-        echo "member id: " . $_COOKIE[$cookie_name];
-        
-    }
-   */
 ?>
