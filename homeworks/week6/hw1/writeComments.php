@@ -1,32 +1,33 @@
 <?php
   require_once('conn.php');
   require_once('function.php');
-      
-    $session_id = $_COOKIE["session_id"];
-    $sql_s = "SELECT * FROM annieshen_users where session_id=?";
-    $stmt_s = $conn->prepare($sql_s);
-    $stmt_s->bind_param("s", $session_id);
-    $stmt_s->execute();
-    $result_s = $stmt_s->get_result();
-    $row_s = $result_s->fetch_assoc();
 
-    //$nickname = $_POST['nickname'];
+  $session_id = $_COOKIE["user_id"];
+  $stmt = $conn->prepare("SELECT * FROM annieshen_users_certificate where id = ?");
+  $stmt->bind_param("s", $session_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+  $user_id = $row['user_id'];
+
     $writeContent = $_POST['writeContent'];
-    $user_id = $row_s['user_id'] ;
 
 
     //新增留言到comments資料庫 
-    $sql2 = "INSERT INTO annieshen_comments (content,user_id) VALUES ('$writeContent','$user_id')";
+    $sql_insert = "INSERT INTO annieshen_comments (content,user_id) VALUES (?,?)";
+    $stmt_insert = $conn->prepare($sql_insert);
+    $stmt_insert->bind_param("ss", $writeContent, $user_id);
+    $stmt_insert->execute();
 
-      if ($conn->query($sql2)) {
-          echo "留言已送出!";
-          header("Location:index.php");
+    if ($conn->prepare($sql_insert)) {
+        //echo "留言已送出!";
+        header("Location:index.php");
 
-          //echo 
-      } else {
-          echo "Error: " . $sql . "<br>" . $conn->error;
-          echo "留言填寫失敗";
+        //echo 
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "留言填寫失敗";
 
-      }
+    }
       
 ?>
