@@ -20,18 +20,17 @@ if (isset($_POST['user_id']) && isset($_POST['password']) && isset($_POST['nickn
         $result_name = $stmt_name->get_result();
         $row_name = $result_name->fetch_assoc();
 
-        if($stmt->execute()){ //註冊成功，新增session_id
-          if($row_name['user_id'] === $user_id){
-            echo "<script> alert('註冊失敗，帳號已被使用過'); </script>";
-          } else{
-            $session_id = uniqid();
-            $stmt_session = $conn->prepare("INSERT INTO annieshen_users_certificate(id,user_id) VALUES(?,?)");
-            $stmt_session->bind_param('ss',$session_id,$user_id);
-            $stmt_session->execute();
-            setcookie('user_id',$session_id,time()+3600*24);
-            header('Location:index.php'); 
-          }
-        } 
+        if($row_name['user_id'] === $user_id){
+          echo "<script> alert('註冊失敗，帳號已被使用過'); </script>";
+        }else if($stmt->execute()){ //註冊成功，新增session_id
+              $session_id = uniqid();
+              $stmt_session = $conn->prepare("INSERT INTO annieshen_users_certificate(id,user_id) VALUES(?,?)");
+              $stmt_session->bind_param('ss',$session_id,$user_id);
+              $stmt_session->execute();
+              setcookie('user_id',$session_id,time()+3600*24);
+              header('Location:index.php'); 
+          
+        }
         $stmt->close(); 
 
   } else{
