@@ -7,10 +7,9 @@
             $user_id = '';
             
             //判斷是否登入過
-            if(isset($_COOKIE["session_id"])){
-                $session_id = $_COOKIE["session_id"];
-                $sql = "SELECT * FROM annieshen_users where session_id=?";
-                $stmt = $conn->prepare($sql);
+            if(isset($_COOKIE["user_id"])){
+                $session_id = $_COOKIE["user_id"];
+                $stmt = $conn->prepare("SELECT * FROM annieshen_users_certificate where id = ?");
                 $stmt->bind_param("s", $session_id);
                 $stmt->execute();
                 $result = $stmt->get_result();
@@ -23,8 +22,7 @@
             <?php
                 
             } else{
-                //echo "member id: " . $_COOKIE[$cookie_name];
-    
+
                 ?>
                 <a href="register.php">註冊</a> <a href="login.php">會員登入</a>
 

@@ -1,44 +1,58 @@
 
 <?php
   require_once('conn.php');
-  require_once('function.php');
-  
-  $error_message ="";
+  //require_once('function.php');
 
-  
-  if (!empty($_POST['user_id'])) {
-    $user_id = $_POST['user_id'];
-    //$password = $_POST['password'];
+  if (isset($_POST['user_id']) && isset($_POST['password'])) {
+    if (!empty($_POST['user_id']) && !empty($_POST['password'])) {
+      $user_id = $_POST['user_id'];
+      $password = $_POST['password'];
 
-    $sql = "SELECT * FROM annieshen_users where user_id=? ";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $user_id);
-    $stmt->execute();
-    //echo mysqli_error($conn); //可以印出錯誤
+      $stmt = $conn->prepare("SELECT * FROM annieshen_users where user_id = ? ");
+      $stmt->bind_param("s", $user_id);
+      $stmt->execute();
+      $result = $stmt->get_result();
+      $row = $result->fetch_assoc();
 
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+      $passwordCheck = password_verify($password, $row['password']);
 
-    $password = $row['password'];
-    $passwordCheck = password_verify($_POST['password'], $password);
-
-    if($result->num_rows>0 && $passwordCheck===true){
-      
-      //setcookie("user_id", $user_id, time()+3600*24); // 設定一個 24 小時之後會過期的 Cookie
-      setcookie("session_id", $row['session_id'], time()+3600*24); 
-      header('Location: index.php');
+      if($result->num_rows > 0 && $passwordCheck === true){
+        $stmt_certificate = $conn->prepare("SELECT * FROM annieshen_users_certificate WHERE user_id = ?");
+        $stmt_certificate->bind_param("s",$user_id);
+        $stmt_certificate->execute();
+        $result_certificate = $stmt_certificate->get_result();
+        
+        if($result_certificate->num_rows > 0){ //已登入過，更新session_id
+            $session_id = uniqid();
+            $stmt_session = $conn->prepare("UPDATE annieshen_users_certificate SET id = ? WHERE user_id = ?");
+            $stmt_session->bind_param('ss',$session_id,$user_id);
+            $stmt_session->execute();
+            setcookie('user_id',$session_id,time()+3600*24);
+            header('Location:index.php');                    
+        }
+        else{  //第一次登入，新增session_id
+            $session_id = uniqid();
+            $stmt_session = $conn->prepare("INSERT INTO annieshen_users_certificate(id,user_id) VALUES(?,?)");
+            $stmt_session->bind_param('ss',$session_id,$user_id);
+            $stmt_session->execute();
+            setcookie('user_id',$session_id,time()+3600*24);
+            header('Location:index.php');                    
+        }
+      } else{
+          echo "<script> alert('密碼錯誤，請重新登入'); location.href = 'login.php'</script>";
+      }
+      $conn->close();
     } else{
-        $error_message = '帳號密碼錯誤';
+      echo "<script> alert('請填寫正確的帳號密碼'); location.href = 'login.php'</script>";
     }
-    $conn->close();
-  }
+  } 
   
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>week5 留言板</title> 
+<title>week6 留言板</title> 
 <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
 <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1"> 
    
@@ -53,13 +67,8 @@
   <?php require('incl-header.php');?>
   <div class="content">
 
-    <h1>登入</h1>
+    <h1>會員登入</h1>
 
-    <?php 
-      if($error_message !== ''){
-        echo $error_message;
-      }
-    ?>
     <form action='login.php' method='POST' class='register_form'>
     <div>帳號: <input name='user_id' /></div>
     <div>密碼: <input name='password' type='password'/></div>

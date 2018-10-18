@@ -1,9 +1,6 @@
 
 <?php
   require_once('conn.php');
-  require_once('function.php');
-
-
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -35,28 +32,23 @@
         <?php 
 
           //判斷是否登入過
-          if(isset($_COOKIE["session_id"])){
-            $session_id = $_COOKIE["session_id"];
-          
-            $sql_nickname = "SELECT nickname,user_id FROM annieshen_users WHERE session_id= '$session_id'";          
-            $result_nickname  = $conn->query($sql_nickname); //conn連結資料庫  result是物件
+          if(isset($_COOKIE["user_id"])){
+            $sql_user_id = $row['user_id'];
+            $stmt_nickname = $conn->prepare("SELECT nickname,user_id FROM annieshen_users WHERE user_id = ?");
+            $stmt_nickname->bind_param('s',$sql_user_id);
+            $stmt_nickname->execute();
+            $stmt_nickname->store_result();
+            $stmt_nickname->bind_result($nickname,$user_id);
 
-            if($result_nickname  -> num_rows>0){
-              while($row_nickname = $result_nickname -> fetch_assoc()){ //fetch_assoc 會逐一搜尋 找不到結束while
-                
-                ?>
-                  <div class = 'userInfo'>
-                    <div class='id'><?php  echo substr($row_nickname ["user_id"],0,1); ?></div>
-                    <div class='name'><?php  echo $row_nickname ["nickname"];?></div>
-                  </div> 
-          
-                <?php
-                
-              }
-              
-            }else{
-              //echo "0 results";
-            }   
+            while($stmt_nickname->fetch()){
+              ?>
+              <div class = 'userInfo'>
+                <div class='id'><?php  echo substr($user_id,0,1); ?></div>
+                <div class='name'><?php  echo $nickname;?></div>
+              </div> 
+      
+            <?php
+            }
             
           }
           
@@ -65,11 +57,8 @@
           <textarea cols="50" rows="5" name="writeContent" class="text"></textarea>
           <?php 
           //判斷是否登入過
-          if(isset($_COOKIE["session_id"])){
-             $session_id = $_COOKIE["session_id"];
-          ?>
-              
-          
+          if(isset($_COOKIE["user_id"])){
+          ?>          
             <div class="btn-wrap"><input type="submit" id="add" class="replySubmit btn-login" value="送出" /></div>
           <?php
             
@@ -119,16 +108,12 @@
             
               <?php
               //主留言修改刪除
-              if(isset($_COOKIE["session_id"])){
-                $session_id = $_COOKIE["session_id"];
-                $sql_nickname = "SELECT nickname,user_id FROM annieshen_users WHERE session_id= '$session_id'";          
-                $result_nickname  = $conn->query($sql_nickname);
-                $row_nickname = $result_nickname -> fetch_assoc();
-                if($row ["user_id"] === $row_nickname ["user_id"])    {
+              if(isset($_COOKIE["user_id"])){
+                if($row ["user_id"] === $sql_user_id) { //如果comments 的user_id = cookie裡的user_id
 
               ?>
 
-                  <form action="updateComments.php" method="POST">
+                  <form action="updateComments.php" method="POST" onsubmit="return submit_check();">
                     <input type="button" value="編輯" class="edit_btn edit<?php echo $row ["id"]; ?>"/>
                     
                     <div class="edit_box<?php echo $row ["id"]; ?>">
@@ -138,7 +123,7 @@
                     </div>
                   </form>
 
-                  <form action="deleteComments.php" method="POST">
+                  <form action="deleteComments.php" method="POST" onsubmit="return delete_check();">
                     <input type="hidden" name="comment_id" value="<?php echo $row ["id"] ?>" />
                     <input type="submit" value="刪除" class="delete_btn"/>
                   </form>
@@ -146,13 +131,15 @@
 
                 <script>
                 $('.edit_box<?php echo $row ["id"]; ?>').hide();
-                $('.show_content').on('click', '.edit<?php echo $row ["id"]; ?>', function(event) { 
+
+                $('.show_content').on('click', '.edit<?php echo $row ["id"]; ?>', function(event) {
+
                   
                     var $target = $(event.target);
                     if( $target.is(".edit<?php echo $row ["id"]; ?>") ) {
                       
                       $('.edit_box<?php echo $row ["id"]; ?>').toggle();
-                      console.log($(event.target).html()); 
+                      console.log($(event.target).html());
                   }
                 });
                 </script>
@@ -202,31 +189,29 @@
                     
                     <?php
                     //子留言修改刪除
-                    if(isset($_COOKIE["session_id"])){
-                      $session_id = $_COOKIE["session_id"];
-                      $sql_nickname = "SELECT nickname,user_id FROM annieshen_users WHERE session_id= '$session_id'";          
-                      $result_nickname  = $conn->query($sql_nickname);
-                      $row_nickname = $result_nickname -> fetch_assoc();
-                      if($row2 ["user_id"] === $row_nickname ["user_id"])    {
+                    if(isset($_COOKIE["user_id"])){
+                      if($row2 ["user_id"] === $sql_user_id) { //如果comments 的user_id = cookie裡的user_id
+                      //if($row2 ["user_id"] === $row_nickname ["user_id"])    {
                         ?>
-                        <form action="updateCommentsChild.php" method="POST">
+                        <form action="updateCommentsChild.php" method="POST" onsubmit="return submit_check();">
 
                           <input type="button" value="編輯" class="edit_btn edit_child<?php echo $row2 ["id"]; ?>"/>
                           <div class="edit_box_child<?php echo $row2 ["id"]; ?>">
 
                             <textarea cols="50" rows="5" name="content" class="text text_edit"><?php echo htmlspecialchars($row2 ["content"], ENT_QUOTES, 'utf-8'); ?></textarea>
                             <input type="hidden" name="comment_id" value="<?php echo $row2 ["id"] ?>" />
-                            <input type="submit" value="修改留言" class="btn-edit" />
+                            <input type="submit" value="修改留言" class="btn-edit"/>
                           </div>
                         </form>
-                        <form action="deleteCommentsChild.php" method="POST">
-                          <input type="hidden" name="comment_id" value="<?php echo $row ["id"] ?>" />
+                        <form action="deleteCommentsChild.php" method="POST" onsubmit="return delete_check();">
+                          <input type="hidden" name="comment_id" value="<?php echo $row2 ["id"] ?>" />
                           <input type="submit" value="刪除" class="delete_btn" />
                         </form>
 
                         <script>
                           $('.edit_box_child<?php echo $row2 ["id"]; ?>').hide();
-                          $('.show_content_child').on('click', '.edit_child<?php echo $row2 ["id"]; ?>', function(event) {   
+                          $('.show_content_child').on('click', '.edit_child<?php echo $row2 ["id"]; ?>', function(event) {    
+
                             var $target_child = $(event.target);
                             if( $target_child.is(".edit_child<?php echo $row2 ["id"]; ?>") ) { 
                               $('.edit_box_child<?php echo $row2 ["id"]; ?>').toggle();
@@ -260,8 +245,7 @@
     <?php
 
       //判斷是否登入過
-      if(isset($_COOKIE["session_id"])){
-        $session_id = $_COOKIE["session_id"];
+      if(isset($_COOKIE["user_id"])){
 
   ?>
 
@@ -314,6 +298,25 @@
 </div><!--.container-->
 
 </body>
+<script type="text/javascript">
+function submit_check(){
+  let message = confirm("確定要修改留言嗎?");
+  if (message == true){
+    alert("留言修改成功");
+  }else{
+    return false;
+  }
+}
 
+/*刪除留言提示*/
+function delete_check(){
+  let message = confirm("確定要刪除留言嗎?");
+  if (message == true){
+    alert("留言刪除成功");
+  }else{
+    return false;
+  }
+}
+</script>
 
 </html>
