@@ -131,7 +131,9 @@
 
                 <script>
                 $('.edit_box<?php echo $row ["id"]; ?>').hide();
+
                 $('.show_content').on('click', '.edit<?php echo $row ["id"]; ?>', function(event) {
+
                   
                     var $target = $(event.target);
                     if( $target.is(".edit<?php echo $row ["id"]; ?>") ) {
@@ -209,6 +211,7 @@
                         <script>
                           $('.edit_box_child<?php echo $row2 ["id"]; ?>').hide();
                           $('.show_content_child').on('click', '.edit_child<?php echo $row2 ["id"]; ?>', function(event) {    
+
                             var $target_child = $(event.target);
                             if( $target_child.is(".edit_child<?php echo $row2 ["id"]; ?>") ) { 
                               $('.edit_box_child<?php echo $row2 ["id"]; ?>').toggle();
