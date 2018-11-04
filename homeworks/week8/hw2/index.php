@@ -1,5 +1,6 @@
 
 <?php
+  session_start();
   require_once('conn.php');
 ?>
 
@@ -46,7 +47,7 @@
             
             $row = $result->fetch_assoc();
             $user_id=$row['user_id'];
-            $nickname=$row['nickname'];
+            $nickname = htmlspecialchars($row ["nickname"], ENT_QUOTES, 'utf-8');;
               ?>
               <div class = 'userInfo'>
                 <div class='id' data-id="<?php echo substr($user_id,0,1); ?>"><?php  echo substr($user_id,0,1); ?></div>
@@ -109,7 +110,7 @@
           <div class="userInfo"> 
             
             <div class='id'><?php echo substr($row ["user_id"],0,1); ?></div>
-            <div class='name'><?php echo $row ["nickname"]; ?></div>
+            <div class='name'><?php echo htmlspecialchars($row ["nickname"], ENT_QUOTES, 'utf-8'); ?></div>
             <div class='date'><?php echo $row ["created_at"]; ?></div>
             <div class='show_content'>
               <div class="show_content_text"><?php echo htmlspecialchars($row ["content"], ENT_QUOTES, 'utf-8'); ?></div>
@@ -161,16 +162,13 @@
           </div><!--.user_info-->    
   
           <?php
-
+            $comment_id = $row ["id"];
             //拿子留言
-            $sql_commentChild = "SELECT annieshen_commentschild.id, annieshen_commentschild.content, annieshen_commentschild.parent_id, annieshen_users.nickname, annieshen_commentschild.user_id, annieshen_commentschild.created_at FROM annieshen_commentschild LEFT JOIN annieshen_users ON annieshen_commentschild.user_id = annieshen_users.user_id ORDER BY annieshen_commentschild.created_at ASC";
+            $sql_commentChild = "SELECT annieshen_commentschild.id, annieshen_commentschild.content, annieshen_commentschild.parent_id, annieshen_users.nickname, annieshen_commentschild.user_id, annieshen_commentschild.created_at FROM annieshen_commentschild LEFT JOIN annieshen_users ON annieshen_commentschild.user_id = annieshen_users.user_id WHERE annieshen_commentschild.parent_id = $comment_id ORDER BY annieshen_commentschild.created_at ASC";
             $result2  = $conn->query($sql_commentChild); //conn連結資料庫  result是物件
 
             if($result2 -> num_rows>0 ){
               while($row2 = $result2 -> fetch_assoc() ){ //fetch_assoc 會逐一搜尋 找不到結束while
-                
-                if($row2 ["parent_id"] === $row ["id"]){ 
-
 
                   if($row2 ["user_id"] === $row ["user_id"]){
                     ?>
@@ -183,13 +181,10 @@
                   }
 
                 ?>
-                  
-                  
-                
-                    
+        
                     <dl class='userInfo'>
                       <dt class='id'><?php echo substr($row2 ["user_id"],0,1);?></dt>
-                      <dd class='name'><?php echo $row2 ["nickname"];?></dd>
+                      <dd class='name'><?php echo htmlspecialchars($row2 ["nickname"], ENT_QUOTES, 'utf-8'); ?></dd>
                       <dd class='date'><?php echo $row2 ["created_at"]; ?></dd>
                     </dl>
                     <div class='show_content_child'>
@@ -242,7 +237,7 @@
 
           
                 <?php
-                }
+                
               }
               
             }else{

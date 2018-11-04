@@ -12,7 +12,7 @@
             <ul class="nav navbar-nav navbar-right">
 
             <?php 
-                session_start();
+                //session_start();
                 $user_id = '';
                 
                 //判斷是否登入過

@@ -14,19 +14,21 @@
 
   // 刪除主留言
   if(isset($_POST['comment_id'])){
-      $comment_id = $_POST['comment_id'];
-      
-      $sql = "DELETE FROM annieshen_comments WHERE id = ? AND user_id = ?";
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param("is", $comment_id, $user_id);
-      $stmt->execute();
+    $comment_id = $_POST['comment_id'];
+    
+    $deleteSql = "DELETE FROM annieshen_comments WHERE id = ? AND user_id = ?";
+    $stmt_deleteSql = $conn->prepare($deleteSql);
+    $stmt_deleteSql->bind_param("is", $comment_id, $user_id);
+    $result = $stmt_deleteSql->execute();
+    if($result){
       $arr = array('result' => 'success');
       echo json_encode($arr);
-      if($stmt->execute() == false){
-        echo json_encode('{"success": fail}');
-      }
-      
-  }
+    }else{
+      echo json_encode('{"success": fail}');
+    }
+    
+}
+
 
   $stmt->close();
 
