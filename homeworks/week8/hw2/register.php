@@ -1,6 +1,6 @@
 
 <?php
-
+session_start();
 require_once('conn.php');
 
 if (isset($_POST['user_id']) && isset($_POST['password']) && isset($_POST['nickname'])) {
@@ -23,12 +23,8 @@ if (isset($_POST['user_id']) && isset($_POST['password']) && isset($_POST['nickn
         if($row_name['user_id'] === $user_id){
           echo "<script> alert('註冊失敗，帳號已被使用過'); </script>";
         }else if($stmt->execute()){ //註冊成功，新增session_id
-              $session_id = uniqid();
-              $stmt_session = $conn->prepare("INSERT INTO annieshen_users_certificate(id,user_id) VALUES(?,?)");
-              $stmt_session->bind_param('ss',$session_id,$user_id);
-              $stmt_session->execute();
-              setcookie('user_id',$session_id,time()+3600*24);
-              header('Location:index.php'); 
+          $_SESSION['member_id'] = $user_id;
+          header('Location:index.php'); 
           
         }
         $stmt->close(); 
