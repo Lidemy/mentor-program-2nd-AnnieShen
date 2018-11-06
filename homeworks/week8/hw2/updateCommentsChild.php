@@ -4,12 +4,7 @@
       
   //判斷是否登入過
   if(isset($_SESSION["member_id"])) {
-    $stmt = $conn->prepare("SELECT * FROM annieshen_users WHERE user_id=?");
-    $stmt->bind_param("s", $_SESSION["member_id"]);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    $user_id=$row['user_id'];
+    $user_id=$_SESSION["member_id"];
   }    
 
   // 編輯子留言
@@ -30,5 +25,5 @@
       
   }
 
-  $stmt->close();
+  $stmt_updateSql->close();
 ?>
