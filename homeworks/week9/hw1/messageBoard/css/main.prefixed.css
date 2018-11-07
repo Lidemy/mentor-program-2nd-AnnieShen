@@ -1,0 +1,279 @@
+@charset "UTF-8";
+* {
+  box-sizing: border-box;
+  font: 100% "Microsoft JhengHei", Helvetica, sans-serif; }
+
+html, body {
+  position: relative;
+  height: 100%; }
+
+body {
+  margin: 0;
+  padding: 0;
+  font: 100% "Microsoft JhengHei", Helvetica, sans-serif;
+  font-size: 14px;
+  background-image: url(../images/bg01.jpg);
+  background-size: cover;
+  background-attachment: fixed; }
+
+.clean {
+  clear: both; }
+
+h1 {
+  font-size: 35px;
+  text-align: center;
+  border-bottom: 1px double #333;
+  padding-bottom: 15px;
+  letter-spacing: 10px;
+  width: 400px;
+  margin: 0 auto 55px auto; }
+
+h2 {
+  font-size: 30px; }
+
+p {
+  font-size: 13px; }
+
+input {
+  outline: none; }
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+    background: none !important; }
+
+textarea.text {
+  outline: none;
+  color: #333;
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 8px; }
+
+input[name="nickname"], input[name="user_id"], input[name="password"] {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #333; }
+
+input[name="reply"] {
+  background: none;
+  width: 100%;
+  margin: 10px 0;
+  border: 1px solid #333; }
+
+input[name="reply_btn"] {
+  background: none;
+  border: none;
+  float: right;
+  cursor: pointer; }
+
+a {
+  text-decoration: none; }
+
+/*內容*/
+.content {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 20px 30px 20px; }
+
+.row {
+  margin-bottom: 50px;
+  background-color: #fff;
+  padding: 20px; }
+  .row .nickname > input {
+    margin-left: 10px; }
+
+.btn-wrap {
+  text-align: right;
+  margin-top: 10px; }
+
+.reply_wrap {
+  margin-bottom: 50px;
+  background-color: #fff;
+  padding: 20px; }
+  .reply_wrap > form {
+    margin: 15px 0 20px 60px; }
+
+.under_reply {
+  background: #eeefef;
+  margin: 15px 0 15px 60px;
+  border-radius: 5px;
+  padding: 10px; }
+  .under_reply.member_reply {
+    background: #f9e4ef; }
+    .under_reply.member_reply .userInfo dt.id {
+      background: #e40075; }
+  .under_reply dl {
+    margin: 0 0 10px 0; }
+  .under_reply dt {
+    font-size: 18px;
+    font-weight: bold;
+    display: inline-block;
+    width: calc(100% - 140px);
+    vertical-align: top; }
+  .under_reply dd {
+    font-size: 14px;
+    color: #666;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0; }
+  .under_reply::after {
+    display: block;
+    clear: both;
+    content: ""; }
+
+.userInfo {
+  margin-right: 10px; }
+  .userInfo .id {
+    display: inline-block;
+    background-color: #81d8d0;
+    color: #fff;
+    border-radius: 50%;
+    width: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 20px; }
+  .userInfo .name {
+    display: inline-block;
+    font-size: 22px;
+    padding-left: 15px; }
+  .userInfo .date {
+    font-size: 14px;
+    color: #666;
+    float: right; }
+  .userInfo .show_content {
+    margin-left: 60px;
+    border-top: 1px solid #eee;
+    padding-top: 10px; }
+  .userInfo dt.id {
+    width: 30px;
+    line-height: 30px;
+    font-size: 17px;
+    background-color: #bbb; }
+  .userInfo dd.name {
+    font-size: 20px;
+    padding-left: 7px; }
+
+.login_bar {
+  margin-left: 60px; }
+
+.pages {
+  text-align: center;
+  margin-bottom: 50px; }
+  .pages a {
+    width: 35px;
+    line-height: 35px;
+    border: 1px solid #666;
+    color: #666;
+    display: inline-block;
+    margin: 0 5px;
+    transition: 0.2s linear; }
+    .pages a:hover {
+      background-color: #666;
+      color: #fff; }
+
+/*註冊*/
+.register_form {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 10px; }
+  .register_form div {
+    margin: 5vh 0;
+    text-align: center;
+    color: #fff;
+    font-size: 22px;
+    letter-spacing: 5px; }
+  .register_form input {
+    border-color: #fff;
+    color: #fff;
+    width: 50%; }
+  .register_form .btn {
+    border: 1px solid #fff;
+    width: auto;
+    background: none;
+    padding: 10px 30px;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s; }
+    .register_form .btn:hover {
+      background: #fff;
+      color: #333; }
+
+.show_content, .show_content_child {
+  position: relative; }
+
+.show_content_text {
+  margin-bottom: 10px;
+  font-size: 17px; }
+
+.edit_btn, .edit_btn_child {
+  position: absolute;
+  right: 60px;
+  top: 5px;
+  background: url(../images/icon_edit.png) no-repeat;
+  background-size: 18px;
+  padding-left: 20px; }
+
+.delete_btn {
+  position: absolute;
+  right: 0;
+  top: 5px;
+  background: url(../images/icon_delete.png) no-repeat;
+  background-size: 18px;
+  padding-left: 20px; }
+
+.show_content input[type='button'],
+.show_content input[type='submit'],
+.show_content_child input[type='button'],
+.show_content_child input[type='submit'] {
+  border: none;
+  cursor: pointer; }
+
+textarea.text_edit {
+  width: calc(100% - 100px); }
+
+.btn-edit {
+  color: white;
+  background-color: #aaa;
+  border-color: transparent;
+  transition: 0.2s linear;
+  font-size: 14px;
+  padding: 5px 8px;
+  cursor: pointer;
+  position: absolute;
+  bottom: 0;
+  right: 0; }
+
+@media only screen and (max-width: 767px) {
+  h1 {
+    font-size: 28px;
+    width: 350px; }
+  .userInfo .id {
+    width: 30px;
+    line-height: 30px;
+    font-size: 17px; }
+  .userInfo .name, .userInfo dd.name {
+    font-size: 17px; } }
+
+@media only screen and (max-width: 567px) {
+  h1 {
+    font-size: 18px;
+    width: 100%; }
+  .userInfo .show_content, .under_reply, .login_bar {
+    margin-left: 0; }
+  .reply_wrap > form {
+    margin-left: 0; }
+  .userInfo .date {
+    font-size: 11px;
+    width: auto;
+    line-height: 24px; }
+  .userInfo .name, .userInfo dd.name {
+    padding-left: 1%; }
+  .show_content {
+    margin-top: 5px; }
+  .register_form {
+    width: 100%; }
+    .register_form div {
+      font-size: 16px; } }
