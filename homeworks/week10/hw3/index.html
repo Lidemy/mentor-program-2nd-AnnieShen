@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>week7 - hw2</title> 
+<meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+<script src='js/jquery-3.3.1.min.js'></script>
+<link rel="stylesheet" href="css/index.css" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+	<h1>ToDoList</h1>
+    <div class="addThing">
+		<input type="text" class="addThing__text" placeholder="新增待辦事項" value=""/><input type="button" class="addThing__btn square cross" id="add" value="+" />
+    </div>
+    <div class="list">
+
+	</div>
+</div>
+
+</body>
+
+<script>
+$(document).ready(() => {
+	var list = [];
+	function addTodo(todo) {
+	  	list.unshift(todo);
+	  	render();
+	}
+
+	function removeTodo(id) {
+	 	list = list.filter((item,index) => index !== id);
+	  	render();
+	}
+
+	function render(){
+	  	$('.list').empty();
+	  	$('.list').append(list.map((item,index) => `<div class='list__item'><input type="checkbox" id="myCheck" class="checkmark"><div class="list__item__text">`+list[index]+`</div> <span class="delete close"></span></div>`));
+		$('.list__item').on('click','.delete', e => {
+			removeTodo($(e.target).parent().index());
+		})
+	}
+
+	// submit 普通輸出待辦事項
+	// $('.addThing__btn').click(() => {
+	// 	if($('.addThing__text').val()!==''){
+	// 		addTodo($('.addThing__text').val());
+	// 	}
+	// 	$('.addThing__text').val('');
+	// })
+
+	$("#add").click(function(){	
+		input()
+	});
+
+	$(".addThing__text").keypress(function () {
+		var keycode = event.keyCode || event.which;
+		if(keycode == 13) {
+			input()
+		}
+	})
+
+	function input(){
+		if($('.addThing__text').val()!==''){
+			addTodo($('.addThing__text').val());
+		} else{
+			console.log("是空的")	
+		}
+		$('.addThing__text').val('');
+	}
+
+	//完成標記
+	$('.list').on('click', '#myCheck', function(event) { // 绑定事件到父節點
+		//console.log($(event.target.parentElement)); // event.target是當前的li,this是父元素
+		var checkBox = $(event.target).is(":checked");
+		if (checkBox === true){
+			$(event.target.parentElement).css("color", "#aaa");
+			$(event.target.parentNode).css("opacity", "0.5");
+			$(event.target.parentElement.childNodes).css("text-decoration", "line-through");
+		} else {
+			$(event.target.parentElement).css("color", "#000");
+			$(event.target.parentNode).css("opacity", "1");
+			$(event.target.parentElement.childNodes).css("text-decoration", "none");
+		}
+	});
+});
+</script>
+</html>
